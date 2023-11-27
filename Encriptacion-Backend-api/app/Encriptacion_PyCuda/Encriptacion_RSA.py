@@ -10,7 +10,7 @@ def conversion_ascii(texto):
 def conversion_texto(lista_ascii):
     return ''.join(chr(num) for num in lista_ascii)
 
-def encriptacion(texto, e = 17, n = 3233):
+def encriptar(texto, e = 17, n = 3233):
     cuda.init()
     device = cuda.Device(0)
     context = device.make_context()
@@ -50,12 +50,12 @@ def encriptacion(texto, e = 17, n = 3233):
         context.synchronize()
 
         resultado = texto_gpu.get()
-        return resultado
+        return resultado.tolist()
     finally:
         context.pop()
         context.detach()
 
-def desencriptacion(texto_ecncriptado, d = 2753, n = 3233 ):
+def desencriptar(texto_ecncriptado, d = 2753, n = 3233 ):
     cuda.init()
     device = cuda.Device(0)
     context = device.make_context()
@@ -103,11 +103,11 @@ def desencriptacion(texto_ecncriptado, d = 2753, n = 3233 ):
         context.detach()
 
 #texto_original = "¡Hola Mundo!"
-#texto_encriptado = encriptacion(texto_original)
+#texto_encriptar = encriptacion(texto_original)
 #print("Texto encriptado:", texto_encriptado)
 #texto_desencriptado = desencriptacion(texto_encriptado)
 #print("Texto desencriptado:", texto_desencriptado)
-#if texto_desencriptado == texto_original:
+#if texto_desencriptar == texto_original:
 #    print("¡La encriptación y desencriptación funcionaron correctamente!")
 #else:
 #    print("Algo salió mal en el proceso.")

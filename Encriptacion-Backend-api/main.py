@@ -1,8 +1,6 @@
-from flask import Flask, request, jsonify
+from app import create_app
 
-app = Flask(__name__)
-@app.route('/encriptar/rsa', methods=['POST'])
-def ecncriptacion_rsa():
-    pass
-if __name__ == "__main__":
+app = create_app()
+
+if __name__ == '__main__':
     app.run(debug=True)
