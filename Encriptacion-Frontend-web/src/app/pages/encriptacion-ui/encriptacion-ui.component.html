@@ -1,0 +1,13 @@
+<div>
+    <h2>Encryption Interface</h2>
+    <textarea [(ngModel)]="texto" rows="4" cols="50"></textarea>
+    <div>
+      <button (click)="encriptarRSA()">RSA</button>
+      <button (click)="encriptarAES()">AES</button>
+      <button (click)="desencriptarRSA()">Decrypt RSA</button>
+      <button (click)="desencriptarAES()">Decrypt AES</button>
+    </div>
+    <div>
+      <textarea [(ngModel)]="resultado" rows="4" cols="50" readonly></textarea>
+    </div>
+</div>
