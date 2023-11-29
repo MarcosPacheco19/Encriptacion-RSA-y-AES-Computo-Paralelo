@@ -16,9 +16,13 @@ def encriptar(texto):
             __global__ void encriptacion_aes(unsigned char *data, int data_size) {
                 int idx = threadIdx.x + blockIdx.x * blockDim.x;
                 if (idx < data_size) {
-                    unsigned char xor_key = 0xAA;
-                    xor_key ^= idx; 
+                    unsigned char base_key = 0xBB;
+                    unsigned char xor_key = base_key ^ (idx % 256);
                     data[idx] = data[idx] ^ xor_key;
+                    data[idx] = (data[idx] >> 2) | (data[idx] << (8 - 2));
+                    unsigned char mask = 0x3F; 
+                    mask ^= (idx & 0xFF); 
+                    data[idx] ^= mask;
                 }
             }
         """
@@ -43,18 +47,24 @@ def desencriptar(texto_ecncriptado):
     device = cuda.Device(0)
     context = device.make_context()
     try:
-        texto_gpu = gpuarray.to_gpu(np.frombuffer(texto_cifrado, dtype=np.uint8))
+        texto_gpu = gpuarray.to_gpu(np.frombuffer(texto_ecncriptado, dtype=np.uint8))
 
         desencriptacion_aes ="""
             __global__ void desencriptacion_aes(unsigned char *data, int data_size) {
                 int idx = threadIdx.x + blockIdx.x * blockDim.x;
                 if (idx < data_size) {
-                    unsigned char xor_key = 0xAA;
-                    xor_key ^= idx; 
+                    unsigned char mask = 0x3F; 
+                    mask ^= (idx & 0xFF);
+                    data[idx] ^= mask; 
+                    data[idx] = (data[idx] << 2) | (data[idx] >> (8 - 2));
+
+                    unsigned char base_key = 0xBB;
+                    unsigned char xor_key = base_key ^ (idx % 256);
                     data[idx] = data[idx] ^ xor_key;
                 }
             }
         """
+
         mod = SourceModule(desencriptacion_aes)
         aes_kernel = mod.get_function("desencriptacion_aes")
         hilos_bloque = 256
@@ -68,9 +78,9 @@ def desencriptar(texto_ecncriptado):
         context.pop()
         context.detach()
 
-texto_original = "Este es un texto de prueba."
-texto_cifrado = encriptar(texto_original)
-print("Texto cifrado:", texto_cifrado)
+#texto_original = "Este es un texto de prueba."
+#texto_cifrado = encriptar(texto_original)
+#print("Texto cifrado:", texto_cifrado)
 
-texto_descifrado = desencriptar(texto_cifrado)
-print("Texto descifrado:", texto_descifrado)
+#texto_descifrado = desencriptar(texto_cifrado)
+#print("Texto descifrado:", texto_descifrado)
