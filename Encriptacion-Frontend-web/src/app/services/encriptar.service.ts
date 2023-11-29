@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -6,16 +6,27 @@ import { Injectable } from '@angular/core';
 })
 export class EncriptarService {
 
+  private urlBackend = 'http://127.0.0.1:5000/api';
+
   constructor(private http: HttpClient) { }
 
-  encriptacionRSA(data: string) {
-    return this.http.post('http://127.0.0.1:5000/encriptar/rsa', { texto: data });
+  encriptarRSA(file: File) {
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+    return this.http.post(`${this.urlBackend}/encriptar/rsa`, formData, { responseType: 'json' });
   }
 
-  desencriptacionRSA(data: number[]) {
-    return this.http.post('http://127.0.0.1:5000/desencriptar/rsa', { texto_encriptado: data });
+  desencriptarRSA(file: File) {
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+    return this.http.post(`${this.urlBackend}/desencriptar/rsa`, formData, { responseType: 'json' });
   }
 
+  generarTxt(contenido: string) {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post(`${this.urlBackend}/generar_txt`, { contenido }, { headers, responseType: 'blob' });
+  }
+  
   encriptacionAES(data: string) {
     return this.http.post('http://127.0.0.1:8000/aes_encrypt/', { input_text: data });
   }

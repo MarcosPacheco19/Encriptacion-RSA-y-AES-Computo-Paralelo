@@ -9,23 +9,52 @@ import { EncriptarService } from 'src/app/services/encriptar.service';
 export class EncriptacionUIComponent {
   constructor(private encriptar: EncriptarService){}
 
-  texto = '';
-  resultado = '';
+  fileToUpload: File | null = null;
+  contenidoTxt: string = '';
 
-  encriptarRSA(){
-    this.encriptar.encriptacionRSA(this.texto).subscribe(
-      response => {
-        this.resultado = JSON.stringify(response);
-      }
-    )
+  handleFileInput(event: any) {
+    this.fileToUpload = event.target.files.item(0);
   }
 
-  desencriptarRSA(){
-    this.encriptar.desencriptacionRSA(JSON.parse(this.texto)).subscribe(
-      response => {
-        this.resultado = JSON.stringify(response);
-      }
-    )
+  handleTextareaInput(event: any) {
+    this.contenidoTxt = event.target.value;
+  }
+
+  encriptarRSA() {
+    if (this.fileToUpload) {
+      this.encriptar.encriptarRSA(this.fileToUpload).subscribe(
+        (response: any) => {
+          console.log('Encriptación RSA:', response);
+        },
+        error => console.error(error)
+      );
+    }
+  }
+
+  desencriptarRSA() {
+    if (this.fileToUpload) {
+      this.encriptar.desencriptarRSA(this.fileToUpload).subscribe(
+        (response: any) => {
+          console.log('Desencriptación RSA:', response);
+        },
+        error => console.error(error)
+      );
+    }
+  }
+
+  descargarTxt() {
+    if (this.contenidoTxt) {
+      this.encriptar.generarTxt(this.contenidoTxt).subscribe(
+        (data: Blob) => {
+          const downloadURL = window.URL.createObjectURL(data);
+          const link = document.createElement('a');
+          link.href = downloadURL;
+          link.download = "archivo.txt";
+          link.click();
+        },
+        error => console.error(error)
+      );
+    }
   }
 
   encriptarAES(){
@@ -35,5 +64,4 @@ export class EncriptacionUIComponent {
   desencriptarAES(){
     
   }
-
 }

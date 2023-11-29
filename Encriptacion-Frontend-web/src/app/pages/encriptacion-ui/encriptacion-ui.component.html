@@ -1,13 +1,27 @@
-<div>
-    <h2>Encryption Interface</h2>
-    <textarea [(ngModel)]="texto" rows="4" cols="50"></textarea>
-    <div>
-      <button (click)="encriptarRSA()">RSA</button>
-      <button (click)="encriptarAES()">AES</button>
-      <button (click)="desencriptarRSA()">Decrypt RSA</button>
-      <button (click)="desencriptarAES()">Decrypt AES</button>
+<body>
+    <div class="container">
+        <div class="box encryption">
+            <div class="title">Encriptación</div>
+            <div class="input-group file-upload">
+                <input type="file" (change)="handleFileInput($event)" id="file-upload" class="file-input">
+            <label for="file-upload" class="file-label">Seleccionar el .txt</label>
+            </div>
+            <div class="input-group file-content">
+                <textarea (input)="handleTextareaInput($event)" placeholder="Contenido del .txt"></textarea>
+            </div>
+            <div class="input-group encrypted-content">
+                <textarea placeholder="Resultado"></textarea>
+            </div>
+            <div class="input-group">
+                <button (click)="descargarTxt()">Descargar .txt</button>
+            </div>
+        </div>
+        <div class="box options">
+            <div class="title">Opciones</div>
+            <button (click)="encriptarRSA()">Encriptar RSA</button>
+            <button (click)="desencriptarRSA()">Desencriptar RSA</button>
+            <button>Encriptar AES</button>
+            <button>Desencriptar AES</button>
+        </div>
     </div>
-    <div>
-      <textarea [(ngModel)]="resultado" rows="4" cols="50" readonly></textarea>
-    </div>
-</div>
+</body>
