@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   encriptacion-api:
-    image: marcosjpa22/encriptacion-api-cp
+    image: marcosjpa22/encriptacion-api-cp:v1
     ports:
       - "5000:5000"
     environment:
@@ -15,8 +15,8 @@ services:
             capabilities: [gpu]
 
   encriptacion-web:
-    image: marcosjpa22/encriptacion-web-cp
+    image: marcosjpa22/encriptacion-web-cp:v1
     ports:
-      - "80:80"
+      - "8082:80"
     depends_on:
       - encriptacion-api
