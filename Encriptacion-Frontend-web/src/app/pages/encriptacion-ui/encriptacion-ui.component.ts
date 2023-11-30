@@ -11,9 +11,19 @@ export class EncriptacionUIComponent {
 
   fileToUpload: File | null = null;
   contenidoTxt: string = '';
+  fileName: string = '';
 
   handleFileInput(event: any) {
-    this.fileToUpload = event.target.files.item(0);
+    const file = event.target.files.item(0);
+    this.fileToUpload = file;
+    this.fileName = file.name;
+
+    const fileReader = new FileReader();
+    fileReader.onload = (e) => {
+      this.contenidoTxt = fileReader.result as string;
+      console.log('Contenido del archivo:', this.contenidoTxt);
+    };
+    fileReader.readAsText(file); 
   }
 
   handleTextareaInput(event: any) {
@@ -42,26 +52,41 @@ export class EncriptacionUIComponent {
     }
   }
 
-  descargarTxt() {
-    if (this.contenidoTxt) {
-      this.encriptar.generarTxt(this.contenidoTxt).subscribe(
-        (data: Blob) => {
-          const downloadURL = window.URL.createObjectURL(data);
-          const link = document.createElement('a');
-          link.href = downloadURL;
-          link.download = "archivo.txt";
-          link.click();
+  encriptarAES() {
+    if (this.fileToUpload) {
+      this.encriptar.encriptarAES(this.fileToUpload).subscribe(
+        (response: any) => {
+          console.log('Encriptación AES:', response);
         },
         error => console.error(error)
       );
     }
   }
 
-  encriptarAES(){
-
+  desencriptarAES() {
+    if (this.fileToUpload) {
+      this.encriptar.desencriptarAES(this.fileToUpload).subscribe(
+        (response: any) => {
+          console.log('Desencriptación AES:', response);
+        },
+        error => console.error(error)
+      );
+    }
   }
 
-  desencriptarAES(){
-    
-  }
+  descargarTxt() {
+    if (this.contenidoTxt) {
+      this.encriptar.generarTxt(this.contenidoTxt, 'archivo_descargado').subscribe(
+        (data: Blob) => {
+          const downloadURL = window.URL.createObjectURL(data);
+          const link = document.createElement('a');
+          link.href = downloadURL;
+          link.download = "archivo_descargado.txt";
+          link.click();
+          window.URL.revokeObjectURL(downloadURL);
+        },
+        error => console.error('Error al descargar el archivo:', error)
+      );
+    }
+  }  
 }

@@ -4,24 +4,25 @@
             <div class="title">Encriptación</div>
             <div class="input-group file-upload">
                 <input type="file" (change)="handleFileInput($event)" id="file-upload" class="file-input">
-            <label for="file-upload" class="file-label">Seleccionar el .txt</label>
+                <label for="file-upload" class="file-label">Seleccionar el .txt</label>
+                <div>Archivo Cargado: {{ fileName }}</div>
             </div>
             <div class="input-group file-content">
-                <textarea (input)="handleTextareaInput($event)" placeholder="Contenido del .txt"></textarea>
+                <textarea [(ngModel)]="contenidoTxt" placeholder="Contenido del .txt"></textarea>
             </div>
             <div class="input-group encrypted-content">
                 <textarea placeholder="Resultado"></textarea>
             </div>
             <div class="input-group">
-                <button (click)="descargarTxt()">Descargar .txt</button>
+                <a href="#" (click)="descargarTxt()">Descargar .txt</a>
             </div>
         </div>
         <div class="box options">
             <div class="title">Opciones</div>
             <button (click)="encriptarRSA()">Encriptar RSA</button>
             <button (click)="desencriptarRSA()">Desencriptar RSA</button>
-            <button>Encriptar AES</button>
-            <button>Desencriptar AES</button>
+            <button (click)="encriptarAES()">Encriptar AES</button>
+            <button (click)="desencriptarAES()">Desencriptar AES</button>
         </div>
     </div>
 </body>

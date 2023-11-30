@@ -22,16 +22,20 @@ export class EncriptarService {
     return this.http.post(`${this.urlBackend}/desencriptar/rsa`, formData, { responseType: 'json' });
   }
 
-  generarTxt(contenido: string) {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post(`${this.urlBackend}/generar_txt`, { contenido }, { headers, responseType: 'blob' });
-  }
-  
-  encriptacionAES(data: string) {
-    return this.http.post('http://127.0.0.1:8000/aes_encrypt/', { input_text: data });
+  encriptarAES(file: File) {
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+    return this.http.post(`${this.urlBackend}/encriptar/aes`, formData, { responseType: 'json' });
   }
 
-  desencriptacionAES(data: string) {
-    return this.http.post('http://127.0.0.1:8000/aes_decrypt/', { encrypted_text: data });
+  desencriptarAES(file: File) {
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+    return this.http.post(`${this.urlBackend}/desencriptar/aes`, formData, { responseType: 'json' });
+  }
+
+  generarTxt(contenido: string, nombreArchivo: string) {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post(`${this.urlBackend}/descargar/texto`, { texto: contenido, nombre_archivo: nombreArchivo }, { headers, responseType: 'blob' });
   }
 }

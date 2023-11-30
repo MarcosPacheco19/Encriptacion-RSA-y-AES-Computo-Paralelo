@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, send_file, make_response
 from .Encriptacion_PyCuda import Encriptacion_RSA, Encriptacion_AES
 from io import BytesIO
 import base64
@@ -40,3 +40,21 @@ def desencriptar_aes():
     
     texto_desencriptado = Encriptacion_AES.desencriptar(texto_encriptado)
     return jsonify({"texto_desencriptado": texto_desencriptado})
+
+@main.route('/descargar/texto', methods=['POST'])
+def descargar_texto():
+    data = request.get_json()
+    texto = data['texto']
+    nombre_archivo = data['nombre_archivo']
+
+    if not nombre_archivo.endswith('.txt'):
+        nombre_archivo += '.txt'
+
+    mem = BytesIO()
+    mem.write(texto.encode('utf-8'))
+    mem.seek(0)
+
+    response = make_response(mem.getvalue())
+    response.headers['Content-Disposition'] = f'attachment; filename={nombre_archivo}'
+    response.mimetype = 'text/plain'
+    return response
