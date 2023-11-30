@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { AlertaComponent } from 'src/app/components/alerta/alerta.component';
 import { EncriptarService } from 'src/app/services/encriptar.service';
 
 @Component({
@@ -7,6 +8,8 @@ import { EncriptarService } from 'src/app/services/encriptar.service';
   styleUrls: ['./encriptacion-ui.component.css']
 })
 export class EncriptacionUIComponent {
+
+  @ViewChild('alertComponent') alertComponent!: AlertaComponent;
 
   constructor(private encriptar: EncriptarService){}
 
@@ -51,25 +54,28 @@ export class EncriptacionUIComponent {
   }
   
   descargarTxt() {
-    if (this.resultadoTxt) {
-      const nombreArchivo = this.tipoProceso + '_descarga';
-      this.encriptar.generarTxt(this.resultadoTxt, nombreArchivo).subscribe(
-        (data: Blob) => {
-          const downloadURL = window.URL.createObjectURL(data);
-          const link = document.createElement('a');
-          link.href = downloadURL;
-          link.download = nombreArchivo;
-          link.click();
-          window.URL.revokeObjectURL(downloadURL);
-          this.limpiarTextAreas();
-        },
-        error => console.error('Error al descargar el archivo:', error)
-      );
+    if (!this.resultadoTxt || this.resultadoTxt.trim().length === 0) {
+      this.alertComponent.showAlert('Error', 'No hay texto para descargar.');
+      return;
     }
-  } 
+  
+    const nombreArchivo = this.tipoProceso + '_descarga';
+    this.encriptar.generarTxt(this.resultadoTxt, nombreArchivo).subscribe(
+      (data: Blob) => {
+        const downloadURL = window.URL.createObjectURL(data);
+        const link = document.createElement('a');
+        link.href = downloadURL;
+        link.download = nombreArchivo;
+        link.click();
+        window.URL.revokeObjectURL(downloadURL);
+        this.limpiarTextAreas();
+      },
+      error => console.error('Error al descargar el archivo:', error)
+    );
+  }  
 
   limpiarTextAreas() {
-    this.contenidoTxt = 'Contenido del .txt';
-    this.resultadoTxt = 'Resultado';
+    this.contenidoTxt = '';
+    this.resultadoTxt = '';
   }
 }

@@ -6,11 +6,13 @@ import { AppComponent } from './app.component';
 import { EncriptacionUIComponent } from './pages/encriptacion-ui/encriptacion-ui.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { AlertaComponent } from './components/alerta/alerta.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    EncriptacionUIComponent
+    EncriptacionUIComponent,
+    AlertaComponent
   ],
   imports: [
     BrowserModule,

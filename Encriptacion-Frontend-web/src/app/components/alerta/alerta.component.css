@@ -1,0 +1,75 @@
+.alert-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .alert-box {
+    background-color: white;
+    padding: 20px 40px;
+    border-radius: 5px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    width: 50%; 
+    max-height: 70%; 
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+
+  .alert-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #333;
+  }
+  
+  .alert-message {
+    font-size: 1em;
+    margin-bottom: 20px;
+    color: #555;
+  }
+  
+  .alert-box button {
+    background-color: #007bff; 
+    color: white;
+    border: none; 
+    padding: 10px 20px; 
+    border-radius: 5px;
+    cursor: pointer; 
+    font-size: 1em;
+    transition: background-color 0.3s; 
+  }
+  
+  .alert-box button:hover {
+    background-color: #0056b3; 
+  }
+  
+  .alert-overlay {
+    animation: fadeIn 0.3s;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @media (max-width: 600px) {
+    .alert-box {
+        width: 90%;
+        padding: 10px 20px;
+      }
+    
+  
+    .alert-title, .alert-message {
+      font-size: 1em;
+    }
+  }
+  

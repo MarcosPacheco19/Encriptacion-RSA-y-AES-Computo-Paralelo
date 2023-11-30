@@ -1,3 +1,4 @@
+<app-alerta #alertComponent></app-alerta>
 <body>
     <div class="container">
         <div class="box encryption">
@@ -8,10 +9,10 @@
                 <div class="file-name">Archivo Cargado: {{ fileName }}</div>
             </div>
             <div class="input-group file-content">
-                <textarea [(ngModel)]="contenidoTxt" placeholder="Contenido del .txt"></textarea>
+                <textarea [(ngModel)]="contenidoTxt" placeholder="Contenido del .txt" readonly onmousedown="return false;" onselectstart="return false;"></textarea>
             </div>
             <div class="input-group encrypted-content">
-                <textarea [(ngModel)]="resultadoTxt" placeholder="Resultado"></textarea>
+                <textarea [(ngModel)]="resultadoTxt" placeholder="Resultado" readonly onmousedown="return false;" onselectstart="return false;"></textarea>
             </div>
             <div>
                 <a href="#" class="descargar-link" (click)="descargarTxt()">Descargar .txt</a>
