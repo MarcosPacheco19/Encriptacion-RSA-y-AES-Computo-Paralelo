@@ -18,7 +18,7 @@ En este proyecto tenemos realizado un  back-end en flask, con kernels en pyduca 
       - Subdirectorio `services`
       - Subdirectorio `pages`
       - Subdirectorio `components`
-
+    - `Dockerfile`
 ## Requisitos
 - Docker
 - docker-compose
@@ -42,3 +42,24 @@ python main.py
 cd Encriptacion-Frontend-web
 ng serve --o
 ```
+#### Ejecución de docker-compose
+```bash
+docker-compose up
+```
+## Uso del API
+#### Encriptación AES
+##### Encriptar (POST): /encriptar/aes
+
+Recibe un archivo de texto, lo encripta utilizando Encriptacion_AES.encriptar(), y devuelve el texto encriptado en base64 como respuesta JSON.
+##### Desencriptar (POST): /desencriptar/aes
+
+Recibe un archivo con texto encriptado en formato base64, lo decodifica y lo desencripta utilizando Encriptacion_AES.desencriptar(), y devuelve el resultado como respuesta JSON.
+#### Encriptación RSA
+##### Encriptar (POST): /encriptar/rsa
+Recibe un archivo con texto en formato UTF-8, lo encripta utilizando Encriptacion_RSA.encriptar(), y devuelve una lista de enteros que representa el texto cifrado como respuesta JSON.
+##### Desencriptar (POST): /desencriptar/rsa
+
+Encriptacion_RSA.desencriptar(), y devuelve el resultado como respuesta JSON.
+#### Descarga de Archivos
+##### Descargar (POST): /descargar/texto
+Recibe una solicitud para descargar archivos de texto en formato .txt, extrae el texto y el nombre del archivo del cuerpo JSON, y devuelve el archivo para su descarga.
