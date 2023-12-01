@@ -31,5 +31,14 @@ En este proyecto tenemos realizado un  back-end en flask, con kernels en pyduca 
 ### Clonar el Repositorio
 ```bash
 git clone https://github.com/MarcosPacheco19/Encriptacion-RSA-y-AES-Computo-Paralelo.git
+```
 #### Ejecución de backend en flask
+```bash
 cd Encriptacion-Backend-api
+python main.py
+```
+#### Ejecución de frontend en angular
+```bash
+cd Encriptacion-Frontend-web
+ng serve --o
+```
