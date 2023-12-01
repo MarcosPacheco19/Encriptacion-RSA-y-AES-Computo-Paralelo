@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, send_file, make_response
+from flask import Blueprint, request, jsonify, make_response
 from .Encriptacion_PyCuda import Encriptacion_RSA, Encriptacion_AES
 from io import BytesIO
 import base64
